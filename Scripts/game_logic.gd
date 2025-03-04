@@ -1,6 +1,14 @@
 class_name GameLogic
 
-var gameBoard=[['BR', 'BN', 'BB', 'BQ', 'BK', 'BB', 'BN', 'BR'],
+var gameBoard
+	
+var score={'W':0,'B':0}
+
+
+
+func _init():
+	
+	self.gameBoard=[['BR', 'BN', 'BB', 'BQ', 'BK', 'BB', 'BN', 'BR'],
 	   ['Bp', 'Bp', 'Bp', 'Bp', 'Bp', 'Bp', 'Bp', 'Bp'],
 	   ['','','','','','','',''],
 	   ['','','','','','','',''],
@@ -8,12 +16,7 @@ var gameBoard=[['BR', 'BN', 'BB', 'BQ', 'BK', 'BB', 'BN', 'BR'],
 	   ['','','','','','','',''],
 	   ['Wp', 'Wp', 'Wp', 'Wp', 'Wp', 'Wp', 'Wp', 'Wp'],
 	   ['WR', 'WN', 'WB', 'WQ', 'WK', 'WB', 'WN', 'WR']]
-
-func test():
-	print("Hello")
-
-func _init():
-	test()
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -77,10 +80,12 @@ func get_possible_moves(board,piece,loc):
 				moves.append(move)
 
 	elif piece=='Bp':
-		moves.append(Vector2i(row+1,col))
+		if self.gameBoard[row+1][col]=='':
+			moves.append(Vector2i(row+1,col))
 
 	elif piece=='Wp':
-		moves.append(Vector2i(row-1,col))
+		if self.gameBoard[row-1][col]=='':
+			moves.append(Vector2i(row-1,col))
 
 
 		
@@ -160,3 +165,22 @@ func is_valid_coords(cords):
 		
 	else:
 		return true
+		
+func make_move(src_loc,dest_loc):
+
+
+	#update points if a piece is taken
+	var points={'p':1,'N':3,'B':3,'R':5,'Q':9}
+	var target_piece=self.gameBoard[dest_loc.y][dest_loc.x]
+	var src_piece=self.gameBoard[src_loc.y][src_loc.x]
+	#print("target piece= ",target_piece)
+	#print("src piece= ",src_piece)
+	if target_piece!='':
+		if target_piece[0]==src_piece[0]:
+			return
+		self.score[src_piece[0]]+=points[target_piece[1]]
+
+	self.gameBoard[dest_loc.y][dest_loc.x]=src_piece
+	self.gameBoard[src_loc.y][src_loc.x]=''
+	
+	return
