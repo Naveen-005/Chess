@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dyg3o8wgsv8o8"]
+[gd_scene load_steps=8 format=3 uid="uid://dyg3o8wgsv8o8"]
 
 [ext_resource type="Texture2D" uid="uid://dp8svk27nasc3" path="res://Assets/board.jpg" id="1_71ls5"]
 [ext_resource type="Texture2D" uid="uid://dtmujv2wedx6v" path="res://Assets/Chess_Pieces_Sprite.png" id="2_q3n54"]
 [ext_resource type="Script" path="res://Scripts/board.gd" id="3_h3tr0"]
+[ext_resource type="Texture2D" uid="uid://bxst8ylr1ig27" path="res://Assets/selection.png" id="3_lmcds"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lhysh"]
 resource_name = "Pieces"
@@ -21,22 +22,35 @@ texture_region_size = Vector2i(200, 200)
 4:1/0 = 0
 5:1/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j1fo3"]
+texture = ExtResource("3_lmcds")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+1:0/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_66y3b"]
 tile_size = Vector2i(200, 200)
+terrain_set_0/mode = 0
 sources/0 = SubResource("TileSetAtlasSource_lhysh")
+sources/1 = SubResource("TileSetAtlasSource_j1fo3")
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="Board" type="Sprite2D" parent="."]
-position = Vector2(10, 21)
+position = Vector2(10, -0.999999)
+rotation = 1.5708
 scale = Vector2(0.610137, 0.610137)
 texture = ExtResource("1_71ls5")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
-position = Vector2(-295, -308)
-scale = Vector2(0.38, 0.38)
-tile_map_data = PackedByteArray(0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0)
+position = Vector2(-271, -307)
+scale = Vector2(0.383, 0.383)
 tile_set = SubResource("TileSet_66y3b")
 script = ExtResource("3_h3tr0")
+
+[node name="selectionLayer" type="TileMapLayer" parent="."]
+position = Vector2(-271, -307)
+scale = Vector2(0.383, 0.383)
+tile_set = SubResource("TileSet_66y3b")
