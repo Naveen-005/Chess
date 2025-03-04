@@ -97,6 +97,15 @@ func get_possible_moves(board,piece,loc):
 
 	return moves
 		
+func validate_moves(src,moves):
+	var rtn_movs=Array()
+	#print("src= ",src)
+	for mv in moves:
+		var tmp_brd=self.gameBoard.duplicate(true)
+		#print("mv= ",mv)
+		if make_move(Vector2i(src.y,src.x),mv,true):
+			rtn_movs.append(mv)
+	return rtn_movs
 
 #for incremental moves that stops on obstruction(Rook,Bishop,Queen)
 func incremental_moves(board,piece,loc):
@@ -166,7 +175,7 @@ func is_valid_coords(cords):
 	else:
 		return true
 		
-func make_move(src_loc,dest_loc):
+func make_move(src_loc,dest_loc,tmp=false):
 
 	#update points if a piece is taken
 	var points={'p':1,'N':3,'B':3,'R':5,'Q':9}
@@ -185,11 +194,13 @@ func make_move(src_loc,dest_loc):
 	tempBoard[dest_loc.y][dest_loc.x]=src_piece
 	tempBoard[src_loc.y][src_loc.x]=''
 	
-
-	if is_check(tempBoard,src_piece[0])==false:
+	
+	if is_check(tempBoard,src_piece[0])==false and tmp==false:
 		self.gameBoard=tempBoard
 		self.score=tempScore
+		return true
 		
+	elif is_check(tempBoard,src_piece[0])==false and tmp==true:	
 		return true
 	
 	return false

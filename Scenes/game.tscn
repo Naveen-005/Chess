@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dp8svk27nasc3" path="res://Assets/board.jpg" id="1_71ls5"]
 [ext_resource type="Texture2D" uid="uid://dtmujv2wedx6v" path="res://Assets/Chess_Pieces_Sprite.png" id="2_q3n54"]
-[ext_resource type="Script" path="res://Scripts/board.gd" id="3_h3tr0"]
+[ext_resource type="Script" uid="uid://dx1ex0416tq" path="res://Scripts/board.gd" id="3_h3tr0"]
 [ext_resource type="Texture2D" uid="uid://bxst8ylr1ig27" path="res://Assets/selection.png" id="3_lmcds"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lhysh"]

@@ -58,7 +58,9 @@ func _input(event):
 				#selected=!selected
 				selectionLayer.set_cell(selected_cell,1,Vector2i(0,0))
 				#print(selected_cell)
-				possible_moves=gameInstance.get_possible_moves(gameInstance.gameBoard,gameInstance.gameBoard[selected_cell.y][selected_cell.x],Vector2i(selected_cell.y,selected_cell.x))
+				
+				var tmp_moves=gameInstance.get_possible_moves(gameInstance.gameBoard,gameInstance.gameBoard[selected_cell.y][selected_cell.x],Vector2i(selected_cell.y,selected_cell.x))
+				possible_moves=gameInstance.validate_moves(Vector2i(selected_cell.y,selected_cell.x),tmp_moves)
 				for move in possible_moves:
 					selectionLayer.set_cell(Vector2i(move.y,move.x),1,Vector2i(1,0))
 				
