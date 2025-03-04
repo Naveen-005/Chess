@@ -54,3 +54,14 @@ script = ExtResource("3_h3tr0")
 position = Vector2(-271, -307)
 scale = Vector2(0.383, 0.383)
 tile_set = SubResource("TileSet_66y3b")
+
+[node name="ScoreBoard" type="RichTextLabel" parent="."]
+offset_left = 348.0
+offset_top = -117.0
+offset_right = 568.0
+offset_bottom = -16.0
+scale = Vector2(2.2, 2.2)
+text = "SCORE
+BLACK=
+WHITE=
+"
