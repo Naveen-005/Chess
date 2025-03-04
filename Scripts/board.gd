@@ -16,7 +16,7 @@ var pieces_sprites={"WK":Vector2i(0,0),"WQ":Vector2i(1,0),"WB":Vector2i(2,0),
 
 var selected=false
 var selected_cell=Vector2i(-1,-1)
-var possible_moves
+var possible_moves=Array()
 
 var players=['W','B']
 var player_index=0
@@ -41,10 +41,10 @@ func _input(event):
 		
 		var target_cell=local_to_map(to_local(get_global_mouse_position()))
 		if possible_moves.has(Vector2i(target_cell.y,target_cell.x)):
-			gameInstance.make_move(selected_cell,target_cell)
-			player_index=(player_index+1)%2
-			#print(gameInstance.gameBoard)
-			render_board()
+			if gameInstance.make_move(selected_cell,target_cell):
+				player_index=(player_index+1)%2
+				#print(gameInstance.gameBoard)
+				render_board()
 		selected=false
 		selectionLayer.clear()
 	

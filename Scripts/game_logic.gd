@@ -168,19 +168,49 @@ func is_valid_coords(cords):
 		
 func make_move(src_loc,dest_loc):
 
-
 	#update points if a piece is taken
 	var points={'p':1,'N':3,'B':3,'R':5,'Q':9}
 	var target_piece=self.gameBoard[dest_loc.y][dest_loc.x]
 	var src_piece=self.gameBoard[src_loc.y][src_loc.x]
+	var tempBoard=self.gameBoard.duplicate(true)
+	var tempScore=self.score.duplicate(true)
+	
 	#print("target piece= ",target_piece)
 	#print("src piece= ",src_piece)
 	if target_piece!='':
 		if target_piece[0]==src_piece[0]:
-			return
-		self.score[src_piece[0]]+=points[target_piece[1]]
+			return false
+		tempScore[src_piece[0]]+=points[target_piece[1]]
 
-	self.gameBoard[dest_loc.y][dest_loc.x]=src_piece
-	self.gameBoard[src_loc.y][src_loc.x]=''
+	tempBoard[dest_loc.y][dest_loc.x]=src_piece
+	tempBoard[src_loc.y][src_loc.x]=''
 	
-	return
+
+	if is_check(tempBoard,src_piece[0])==false:
+		self.gameBoard=tempBoard
+		self.score=tempScore
+		
+		return true
+	
+	return false
+	
+func is_check(board,color):
+	
+	var king_loc=Vector2i()
+	for row in range(8):
+		if (color+'K' in board[row]):
+			king_loc=Vector2i(row,board[row].find(color+'K'))
+
+	#print("king at =",king_loc)
+
+	for row in range(8):
+		for col in range(8):
+			if board[row][col]!='':
+				if board[row][col][0]!=color:
+					var moves=get_possible_moves(board,board[row][col],Vector2i(row,col))
+					if moves.has(king_loc):
+						#print("check")
+						return true
+		
+	#print("Not check")				
+	return false
