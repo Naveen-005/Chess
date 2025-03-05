@@ -6,6 +6,7 @@ var score={'W':0,'B':0}
 
 
 
+
 func _init():
 	
 	self.gameBoard=[['BR', 'BN', 'BB', 'BQ', 'BK', 'BB', 'BN', 'BR'],
@@ -103,7 +104,7 @@ func validate_moves(src,moves):
 	for mv in moves:
 		var tmp_brd=self.gameBoard.duplicate(true)
 		#print("mv= ",mv)
-		if make_move(Vector2i(src.y,src.x),mv,true):
+		if make_move(Vector2i(src.y,src.x),Vector2i(mv.y,mv.x),true):
 			rtn_movs.append(mv)
 	return rtn_movs
 
@@ -150,7 +151,7 @@ func get_special_moves(board,piece,loc):
 				if t!='':
 					if t[0]=='W':
 						moves.append(move)
-		if row==1:
+		if row==1 and board[row+1][col]=='':
 			moves.append(Vector2i(row+2,col))
 
 	elif piece=='Wp':
@@ -162,7 +163,7 @@ func get_special_moves(board,piece,loc):
 					if t[0]=='B':
 						moves.append(move)
 
-		if row==6:
+		if row==6 and board[row-1][col]=='':
 			moves.append(Vector2i(row-2,col))
 
 
@@ -185,11 +186,12 @@ func make_move(src_loc,dest_loc,tmp=false):
 	var tempScore=self.score.duplicate(true)
 	
 	#print("target piece= ",target_piece)
-	#print("src piece= ",src_piece)
+	#print("src piece= ",src_piece) 
 	if target_piece!='':
 		if target_piece[0]==src_piece[0]:
 			return false
-		tempScore[src_piece[0]]+=points[target_piece[1]]
+		if target_piece[1]!='K':
+			tempScore[src_piece[0]]+=points[target_piece[1]]
 
 	tempBoard[dest_loc.y][dest_loc.x]=src_piece
 	tempBoard[src_loc.y][src_loc.x]=''
@@ -219,9 +221,26 @@ func is_check(board,color):
 			if board[row][col]!='':
 				if board[row][col][0]!=color:
 					var moves=get_possible_moves(board,board[row][col],Vector2i(row,col))
-					if moves.has(king_loc):
+					if king_loc in moves:
 						#print("check")
 						return true
 		
 	#print("Not check")				
 	return false
+	
+func is_checkMate(player,board):
+	#print("checking for checkmate")
+	print("player= ",player)
+	for i in range(8):
+		for j in range(8):
+			if board[i][j]!='':
+				if board[i][j][0]==player:
+					var tmp_mvs=get_possible_moves(board,board[i][j],Vector2i(i,j))
+					var tmp_mvs_valid=validate_moves(Vector2i(i,j),tmp_mvs)
+					#print("valid array=",tmp_mvs_valid,"\nsize=",tmp_mvs_valid.size())
+					if tmp_mvs_valid.size()>0:
+						#print("not checkmate")
+						return false
+	
+	print("CheckMate")
+	return true

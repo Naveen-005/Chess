@@ -65,3 +65,12 @@ text = "SCORE
 BLACK=
 WHITE=
 "
+
+[node name="Checkmate" type="RichTextLabel" parent="."]
+visible = false
+offset_left = -159.0
+offset_top = -86.0
+offset_right = -37.0
+offset_bottom = -11.0
+scale = Vector2(4, 4)
+text = "CHECKMATE"

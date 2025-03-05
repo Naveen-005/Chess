@@ -3,6 +3,8 @@ extends TileMapLayer
 var logic=preload("res://Scripts/game_logic.gd")
 var gameInstance=GameLogic.new()
 
+signal check_mated(winner)
+
 
 var pieces_sprites={"WK":Vector2i(0,0),"WQ":Vector2i(1,0),"WB":Vector2i(2,0),
 	"WN":Vector2i(3,0),"WR":Vector2i(4,0),"Wp":Vector2i(5,0),
@@ -40,11 +42,15 @@ func _input(event):
 		#print("target selection")
 		
 		var target_cell=local_to_map(to_local(get_global_mouse_position()))
-		if possible_moves.has(Vector2i(target_cell.y,target_cell.x)):
+		if possible_moves.has(Vector2i(target_cell.y,target_cell.x)) and gameInstance.gameBoard[selected_cell.y][selected_cell.x][0]==players[player_index]:
 			if gameInstance.make_move(selected_cell,target_cell):
 				player_index=(player_index+1)%2
 				#print(gameInstance.gameBoard)
 				render_board()
+				if gameInstance.is_checkMate(players[player_index],gameInstance.gameBoard):
+					var gameOverLabel=get_node('../Checkmate')
+					gameOverLabel.visible=true
+					
 		selected=false
 		selectionLayer.clear()
 	
